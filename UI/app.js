@@ -27,6 +27,12 @@ const positions = [
     { id: "P030000", name: "Trưởng phòng Kỹ thuật", deptId: "P03", deptName: "Phòng Kỹ thuật", parent: "BGD0002", parentName: "Giám đốc Khối kỹ thuật" }
 ];
 
+const permissionGroupsData = [
+    { code: "G_ADMIN", name: "Quản trị hệ thống", status: "Active" },
+    { code: "G_SALES_MGR", name: "Quản lý kinh doanh", status: "Active" },
+    { code: "G_TECH_SUPPORT", name: "Hỗ trợ kỹ thuật", status: "Inactive" }
+];
+
 // Utility: Build Tree HTML
 function buildTreeHTML(data, parentId = null) {
     const children = data.filter(item => item.parent === parentId);
@@ -99,6 +105,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Populate Positions Tree
     document.getElementById('pos-tree-container').innerHTML = buildTreeHTML(positions);
 
+    // Populate Permission Groups Table
+    const permGroupTbody = document.getElementById('perm-group-tbody');
+    if (permGroupTbody) {
+        permissionGroupsData.forEach(group => {
+            permGroupTbody.innerHTML += `
+                <tr>
+                    <td><b>${group.code}</b></td>
+                    <td>${group.name}</td>
+                    <td><span style="color: ${group.status === 'Active' ? 'var(--secondary)' : 'var(--text-muted)'}; font-weight: 600;">${group.status}</span></td>
+                    <td>
+                        <button class="btn btn-outline" style="padding: 0.25rem 0.5rem;" onclick="openView('permission-group-form-view')"><ion-icon name="create-outline"></ion-icon></button>
+                        <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; color: var(--danger);" onclick="deletePermissionGroup(this)"><ion-icon name="trash-outline"></ion-icon></button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
     // Populate Selects in Modals
     const deptSelects = [document.getElementById('dept-parent-select'), document.getElementById('pos-dept-select'), document.getElementById('user-dept-select')];
     departments.forEach(dept => {
@@ -170,6 +194,7 @@ window.openView = function(viewId) {
     
     let targetNav = viewId;
     if(viewId === 'position-form-view') targetNav = 'positions';
+    if(viewId === 'permission-group-form-view') targetNav = 'permission-groups';
     
     const activeNav = document.querySelector(`.nav-item[data-target="${targetNav}"]`);
     if(activeNav) activeNav.classList.add('active');
@@ -273,7 +298,7 @@ window.checkEmptyConcurrentPos = function() {
     }
 };
 
-window.assignUserToPos = function() {
+window.assignUser = function() {
     const userSelect = document.getElementById('assign-user-select');
     const roleSelect = document.getElementById('assign-user-role-type');
     
@@ -281,7 +306,7 @@ window.assignUserToPos = function() {
     const roleText = roleSelect.value;
     
     if(!userSelect.value || !roleText) {
-        alert("Vui lòng chọn người dùng và loại chức vụ!");
+        alert("Vui lòng chọn người dùng!");
         return;
     }
 
@@ -293,19 +318,33 @@ window.assignUserToPos = function() {
         email = userText.split('(')[1].replace(')','').trim();
     }
 
-    const tbody = document.getElementById('pos-users-table');
-    const emptyMsg = document.getElementById('empty-pos-users-msg');
+    // Detect target table
+    const isGroupForm = document.getElementById('permission-group-form-view').classList.contains('active');
+    const tbody = document.getElementById(isGroupForm ? 'perm-users-table' : 'pos-users-table');
+    const emptyMsg = document.getElementById(isGroupForm ? 'empty-perm-users-msg' : 'empty-pos-users-msg');
+    
     if(emptyMsg) emptyMsg.style.display = 'none';
 
     const tr = document.createElement('tr');
-    tr.innerHTML = `
-        <td>${name}</td>
-        <td>${email}</td>
-        <td><span class="tag" style="${roleText === 'Chức vụ chính' ? 'background: rgba(79, 70, 229, 0.1); color: var(--primary);' : ''}">${roleText}</span></td>
-        <td style="text-align: center;">
-            <button type="button" class="btn btn-outline" style="padding: 0.25rem 0.5rem; color: #ef4444; border-color: #fca5a5;" onclick="this.closest('tr').remove(); checkEmptyPosUsers();"><ion-icon name="trash-outline"></ion-icon></button>
-        </td>
-    `;
+    if (isGroupForm) {
+        tr.innerHTML = `
+            <td>${name}</td>
+            <td>${email}</td>
+            <td><span class="tag">Nhân viên</span></td>
+            <td style="text-align: center;">
+                <button type="button" class="btn btn-outline" style="padding: 0.25rem 0.5rem; color: #ef4444; border-color: #fca5a5;" onclick="this.closest('tr').remove(); checkEmptyGroupUsers();"><ion-icon name="trash-outline"></ion-icon></button>
+            </td>
+        `;
+    } else {
+        tr.innerHTML = `
+            <td>${name}</td>
+            <td>${email}</td>
+            <td><span class="tag" style="${roleText === 'Chức vụ chính' ? 'background: rgba(79, 70, 229, 0.1); color: var(--primary);' : ''}">${roleText}</span></td>
+            <td style="text-align: center;">
+                <button type="button" class="btn btn-outline" style="padding: 0.25rem 0.5rem; color: #ef4444; border-color: #fca5a5;" onclick="this.closest('tr').remove(); checkEmptyPosUsers();"><ion-icon name="trash-outline"></ion-icon></button>
+            </td>
+        `;
+    }
     tbody.appendChild(tr);
     closeModal('assign-user-modal');
     
@@ -314,11 +353,17 @@ window.assignUserToPos = function() {
     roleSelect.value = 'Chức vụ chính';
 };
 
-window.checkEmptyPosUsers = function() {
-    const tbody = document.getElementById('pos-users-table');
-    const rows = tbody.querySelectorAll('tr:not(#empty-pos-users-msg)');
-    const emptyMsg = document.getElementById('empty-pos-users-msg');
+window.checkEmptyGroupUsers = function() {
+    const tbody = document.getElementById('perm-users-table');
+    const rows = tbody.querySelectorAll('tr:not(#empty-perm-users-msg)');
+    const emptyMsg = document.getElementById('empty-perm-users-msg');
     if(rows.length === 0 && emptyMsg) {
         emptyMsg.style.display = '';
+    }
+};
+
+window.deletePermissionGroup = function(btn) {
+    if(confirm('Bạn có chắc chắn muốn xóa nhóm phân quyền này?')) {
+        btn.closest('tr').remove();
     }
 };

@@ -31,6 +31,10 @@
             <ion-icon name="people-outline"></ion-icon>
             Quản lý người dùng
         </div>
+        <div class="nav-item" data-target="permission-groups">
+            <ion-icon name="key-outline"></ion-icon>
+            Nhóm phân quyền
+        </div>
 
         <div style="margin-top: auto;">
             <button class="btn btn-outline" style="width: 100%; justify-content: center;" onclick="document.body.classList.toggle('dark')">
@@ -180,6 +184,35 @@
             </div>
         </section>
 
+        <!-- Permission Groups View -->
+        <section id="permission-groups" class="view-section">
+            <div class="header">
+                <div>
+                    <h1>Quản lý nhóm phân quyền</h1>
+                    <p style="color: var(--text-muted); margin-top: 0.25rem;">Quản lý danh sách, cấu hình quyền chức năng và quyền dữ liệu.</p>
+                </div>
+                <button class="btn btn-primary" onclick="openView('permission-group-form-view')">
+                    <ion-icon name="add"></ion-icon> Thêm mới
+                </button>
+            </div>
+
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã Nhóm</th>
+                            <th>Tên Nhóm Phân Quyền</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="perm-group-tbody">
+                        <!-- Injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
         <!-- Position Form View (Full Screen) -->
         <section id="position-form-view" class="view-section">
             <div class="header" style="border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
@@ -195,8 +228,6 @@
             <div class="card" style="max-width: 1200px; margin: 0 auto; background: var(--surface);">
                 <div class="tabs" style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
                     <div class="tab active" onclick="switchFormTab(this, 'pos-tab-general')">Thông tin chung</div>
-                    <div class="tab" onclick="switchFormTab(this, 'pos-tab-functions')">Phân quyền chức năng</div>
-                    <div class="tab" onclick="switchFormTab(this, 'pos-tab-data')">Phân quyền dữ liệu</div>
                     <div class="tab" onclick="switchFormTab(this, 'pos-tab-users')">Người dùng</div>
                 </div>
 
@@ -227,90 +258,6 @@
                         </div>
                     </div>
                     
-                    <!-- Tab 2: Function Permissions -->
-                    <div id="pos-tab-functions" class="form-tab-content" style="display: none;">
-                        <div id="func-perm-container" style="display: flex; flex-direction: column; gap: 1rem; max-height: 500px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; background: var(--background);">
-                            <!-- Injected via JS -->
-                        </div>
-                    </div>
-
-                    <!-- Tab 3: Data Permissions -->
-                    <div id="pos-tab-data" class="form-tab-content" style="display: none;">
-                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">Chọn đối tượng bên trái và thiết lập các thuộc tính dữ liệu được phép truy cập ở bên phải.</p>
-                        
-                        <div style="display: flex; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; min-height: 400px;">
-                            <!-- Vertical Menu -->
-                            <div class="vertical-tabs" style="width: 260px; background: var(--surface); border-right: 1px solid var(--border); padding: 1rem 0; display: flex; flex-direction: column; gap: 0.25rem;">
-                                <div class="v-tab active" onclick="switchVTab(this, 'data-kh')">
-                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                        <ion-icon name="people-outline" style="font-size: 1.25rem; color: var(--text-muted);"></ion-icon> <span style="flex: 1;">Khách hàng</span> <ion-icon name="chevron-forward-outline" style="color: var(--text-muted); opacity: 0.5;"></ion-icon>
-                                    </div>
-                                </div>
-                                <div class="v-tab" onclick="switchVTab(this, 'data-hd')">
-                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                        <ion-icon name="document-text-outline" style="font-size: 1.25rem; color: var(--text-muted);"></ion-icon> <span style="flex: 1;">Hợp đồng</span> <ion-icon name="chevron-forward-outline" style="color: var(--text-muted); opacity: 0.5;"></ion-icon>
-                                    </div>
-                                </div>
-                                <div class="v-tab" onclick="switchVTab(this, 'data-sp')">
-                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                        <ion-icon name="cube-outline" style="font-size: 1.25rem; color: var(--text-muted);"></ion-icon> <span style="flex: 1;">Sản phẩm</span> <ion-icon name="chevron-forward-outline" style="color: var(--text-muted); opacity: 0.5;"></ion-icon>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Content Right -->
-                            <div style="flex: 1; padding: 2rem; background: var(--background);">
-                                <!-- Khach hang -->
-                                <div id="data-kh" class="v-tab-content">
-                                    <h4 style="margin-bottom: 1rem; color: var(--primary); font-size: 1rem;">Thuộc tính: Khu vực</h4>
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Hà Nội</label>
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Hồ Chí Minh</label>
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Đà Nẵng</label>
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Cần Thơ</label>
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Hải Phòng</label>
-                                    </div>
-
-                                    <hr style="margin: 2rem 0; border: none; border-top: 1px dashed var(--border);">
-                                    <h4 style="margin-bottom: 1rem; color: var(--primary); font-size: 1rem;">Thuộc tính: Loại khách hàng</h4>
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Doanh nghiệp (B2B)</label>
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Cá nhân (B2C)</label>
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Đối tác (Partner)</label>
-                                    </div>
-                                </div>
-                                
-                                <!-- Hop dong -->
-                                <div id="data-hd" class="v-tab-content" style="display: none;">
-                                    <h4 style="margin-bottom: 1rem; color: var(--primary); font-size: 1rem;">Thuộc tính: Loại hợp đồng</h4>
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Hợp đồng dịch vụ</label>
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Hợp đồng thương mại</label>
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Hợp đồng đại lý</label>
-                                    </div>
-
-                                    <hr style="margin: 2rem 0; border: none; border-top: 1px dashed var(--border);">
-                                    <h4 style="margin-bottom: 1rem; color: var(--primary); font-size: 1rem;">Thuộc tính: Trạng thái</h4>
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Đang hiệu lực</label>
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Hết hiệu lực</label>
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Đã hủy</label>
-                                    </div>
-                                </div>
-
-                                <!-- San pham -->
-                                <div id="data-sp" class="v-tab-content" style="display: none;">
-                                    <h4 style="margin-bottom: 1rem; color: var(--primary); font-size: 1rem;">Thuộc tính: Ngành hàng</h4>
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Giải pháp phần mềm</label>
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Thiết bị mạng</label>
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Dịch vụ Cloud Computing</label>
-                                        <label class="perm-card-checkbox"><input type="checkbox"> Viễn thông</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Tab 4: Users -->
                     <div id="pos-tab-users" class="form-tab-content" style="display: none;">
@@ -344,6 +291,169 @@
                     <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
                         <button type="button" class="btn btn-outline" onclick="openView('positions')">Hủy</button>
                         <button type="submit" class="btn btn-primary">Lưu chức vụ</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Permission Group Form View (Full Screen) -->
+        <section id="permission-group-form-view" class="view-section">
+            <div class="header" style="border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="btn btn-outline" onclick="openView('permission-groups')" style="padding: 0.5rem; border-radius: 50%; display: flex;"><ion-icon name="arrow-back-outline"></ion-icon></button>
+                    <div>
+                        <h1 style="font-size: 1.5rem;">Thêm mới / Chỉnh sửa nhóm phân quyền</h1>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Thiết lập mã, tên và cấu hình các quyền hạn.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="max-width: 1200px; margin: 0 auto; background: var(--surface);">
+                <div class="tabs" style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
+                    <div class="tab active" onclick="switchFormTab(this, 'perm-tab-general')">Thông tin chung</div>
+                    <div class="tab" onclick="switchFormTab(this, 'perm-tab-functions')">Phân quyền chức năng</div>
+                    <div class="tab" onclick="switchFormTab(this, 'perm-tab-data')">Phân quyền dữ liệu</div>
+                    <div class="tab" onclick="switchFormTab(this, 'perm-tab-users')">Người dùng</div>
+                </div>
+
+                <form onsubmit="event.preventDefault(); openView('permission-groups');">
+                    <!-- Tab 1: General Info -->
+                    <div id="perm-tab-general" class="form-tab-content" style="display: block;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                            <div class="form-group">
+                                <label>Mã nhóm</label>
+                                <input type="text" placeholder="Ví dụ: G_ADMIN_SALES">
+                            </div>
+                            <div class="form-group">
+                                <label>Tên nhóm phân quyền</label>
+                                <input type="text" placeholder="Nhập tên nhóm">
+                            </div>
+                            <div class="form-group">
+                                <label>Trạng thái</label>
+                                <select>
+                                    <option>Active</option>
+                                    <option>Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab 2: Function Permissions -->
+                    <div id="perm-tab-functions" class="form-tab-content" style="display: none;">
+                        <div id="func-perm-container" style="display: flex; flex-direction: column; gap: 1rem; max-height: 500px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; background: var(--background);">
+                            <!-- Injected via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Data Permissions -->
+                    <div id="perm-tab-data" class="form-tab-content" style="display: none;">
+                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">Chọn đối tượng bên trái và thiết lập các thuộc tính dữ liệu được phép truy cập ở bên phải.</p>
+                        
+                        <div style="display: flex; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; min-height: 400px;">
+                            <!-- Vertical Menu -->
+                            <div class="vertical-tabs" style="width: 260px; background: var(--surface); border-right: 1px solid var(--border); padding: 1rem 0; display: flex; flex-direction: column; gap: 0.25rem;">
+                                <div class="v-tab active" onclick="switchVTab(this, 'perm-data-kh')">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <ion-icon name="people-outline" style="font-size: 1.25rem; color: var(--text-muted);"></ion-icon> <span style="flex: 1;">Khách hàng</span> <ion-icon name="chevron-forward-outline" style="color: var(--text-muted); opacity: 0.5;"></ion-icon>
+                                    </div>
+                                </div>
+                                <div class="v-tab" onclick="switchVTab(this, 'perm-data-hd')">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <ion-icon name="document-text-outline" style="font-size: 1.25rem; color: var(--text-muted);"></ion-icon> <span style="flex: 1;">Hợp đồng</span> <ion-icon name="chevron-forward-outline" style="color: var(--text-muted); opacity: 0.5;"></ion-icon>
+                                    </div>
+                                </div>
+                                <div class="v-tab" onclick="switchVTab(this, 'perm-data-sp')">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <ion-icon name="cube-outline" style="font-size: 1.25rem; color: var(--text-muted);"></ion-icon> <span style="flex: 1;">Sản phẩm</span> <ion-icon name="chevron-forward-outline" style="color: var(--text-muted); opacity: 0.5;"></ion-icon>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Content Right -->
+                            <div style="flex: 1; padding: 2rem; background: var(--background);">
+                                <!-- Khach hang -->
+                                <div id="perm-data-kh" class="v-tab-content">
+                                    <h4 style="margin-bottom: 1rem; color: var(--primary); font-size: 1rem;">Thuộc tính: Khu vực</h4>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Hà Nội</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Hồ Chí Minh</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Đà Nẵng</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Cần Thơ</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Hải Phòng</label>
+                                    </div>
+
+                                    <hr style="margin: 2rem 0; border: none; border-top: 1px dashed var(--border);">
+                                    <h4 style="margin-bottom: 1rem; color: var(--primary); font-size: 1rem;">Thuộc tính: Loại khách hàng</h4>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Doanh nghiệp (B2B)</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Cá nhân (B2C)</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Đối tác (Partner)</label>
+                                    </div>
+                                </div>
+                                
+                                <!-- Hop dong -->
+                                <div id="perm-data-hd" class="v-tab-content" style="display: none;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--primary); font-size: 1rem;">Thuộc tính: Loại hợp đồng</h4>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Hợp đồng dịch vụ</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Hợp đồng thương mại</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Hợp đồng đại lý</label>
+                                    </div>
+
+                                    <hr style="margin: 2rem 0; border: none; border-top: 1px dashed var(--border);">
+                                    <h4 style="margin-bottom: 1rem; color: var(--primary); font-size: 1rem;">Thuộc tính: Trạng thái</h4>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Đang hiệu lực</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Hết hiệu lực</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Đã hủy</label>
+                                    </div>
+                                </div>
+
+                                <!-- San pham -->
+                                <div id="perm-data-sp" class="v-tab-content" style="display: none;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--primary); font-size: 1rem;">Thuộc tính: Ngành hàng</h4>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Giải pháp phần mềm</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Thiết bị mạng</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Dịch vụ Cloud Computing</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Viễn thông</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 4: Users -->
+                    <div id="perm-tab-users" class="form-tab-content" style="display: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <p style="font-size: 0.875rem; color: var(--text-muted);">Danh sách người dùng đang được gán vào nhóm phân quyền này.</p>
+                            <button type="button" class="btn btn-outline" onclick="openModal('assign-user-modal')">
+                                <ion-icon name="person-add-outline"></ion-icon> Thêm người dùng
+                            </button>
+                        </div>
+                        
+                        <div style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;">
+                            <table>
+                                <thead style="background: var(--background);">
+                                    <tr>
+                                        <th>Họ tên</th>
+                                        <th>Email</th>
+                                        <th>Chức vụ</th>
+                                        <th style="width: 80px; text-align: center;">Xóa</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="perm-users-table">
+                                    <tr id="empty-perm-users-msg">
+                                        <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 2rem;">Chưa có người dùng nào được gán vào nhóm này</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
+                        <button type="button" class="btn btn-outline" onclick="openView('permission-groups')">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Lưu nhóm</button>
                     </div>
                 </form>
             </div>
@@ -513,7 +623,7 @@
                 <h2>Thêm người dùng vào chức vụ</h2>
                 <button class="close-btn" onclick="closeModal('assign-user-modal')">&times;</button>
             </div>
-            <form onsubmit="event.preventDefault(); assignUserToPos();">
+            <form onsubmit="event.preventDefault(); assignUser();">
                 <div class="form-group">
                     <label>Người dùng</label>
                     <select id="assign-user-select" required>
