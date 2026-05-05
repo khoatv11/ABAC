@@ -1,0 +1,15 @@
+Giai đoạn,Portal,Chức năng,Chức năng chi tiết,Mô tả
+create master data,Admin,Quản lý phòng ban,Xem danh sách và CRUD Phòng ban,Tạo danh sách phòng ban. Cho phép xem dạng bảng và dạng tree view nhưng thêm mới thì vẫn nhập form
+create master data,Admin,Quản lý chức vụ,Xem danh sách và CRUD Chức vụ,"""- Tạo danh sách chức vụ. Cho phép xem dạng bảng và dạng tree view nhưng thêm mới thì vẫn nhập form
+- Mỗi chức vụ có thể phân quyền chức năng và phân quyền dữ liệu
+- Phân quyền chức năng cho phép check/uncheck
+- Phân quyền dữ liệu hiển thị các tab object có thể phân quyền dữ liệu, mỗi object cho phép chọn nhiều (multiple select) các value của các attibute (thuộc tính) để phân quyền dữ liệu. (Danh sách attribute và value ở file phan_quyen_du_lieu.csv)"""
+create master data,Admin,Quản lý người dùng,Nâng cấp chức năng xem danh sách và CRUD người dùng,"""- Thêm mới người dùng gồm các trường:
++ Họ tên
++ Email
++ Số điện thoại
++ Phòng ban (nhiều)
++ Chức vụ (nhiều) nhưng ràng buộc bởi phòng ban đã chọn
++ Mật khẩu
++ Trạng thái (active, inactive)
+- Bổ sung gán phòng ban, chức vụ cho người dùng. Cho phép gán nhiều để kiêm nhiệm"""

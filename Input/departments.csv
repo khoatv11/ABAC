@@ -1,0 +1,25 @@
+TT,Mã phòng ban,Phòng ban,Mã phòng ban cha,Tên phòng ban cha
+1,BGD,Ban giám đốc,--,#N/A
+2,P01,Trung tâm Kinh doanh,BGD,Ban giám đốc
+3,N01,Nhóm Digital Sales,P01,Trung tâm Kinh doanh
+4,N02,Nhóm Direct Sales khu vực HN,P01,Trung tâm Kinh doanh
+5,N10,Nhóm Direct Sales khu vực HCM,P01,Trung tâm Kinh doanh
+6,N11,Nhóm Direct Sales khu vực Đà Nẵng,P01,Trung tâm Kinh doanh
+7,N03,Nhóm phụ trách đối tác Affiliate,P01,Trung tâm Kinh doanh
+8,P02,Phòng Marketing,BGD,Ban giám đốc
+9,N04,Nhóm Digital Marketing,P02,Phòng Marketing
+10,N05,"Nhóm PR, Event & Trade Marketing",P02,Phòng Marketing
+11,P03,Phòng Kỹ thuật,BGD,Ban giám đốc
+12,N12,Nhóm phát triển và vận hành,P03,Phòng Kỹ thuật
+13,N06,Nhóm help desk,P03,Phòng Kỹ thuật
+14,N08,Nhóm presales,P03,Phòng Kỹ thuật
+15,N09,Nhóm R&D,P03,Phòng Kỹ thuật
+16,P04,Phòng vận hành,BGD,Ban giám đốc
+17,N13,Nhóm Partnership,P04,Phòng vận hành
+18,N14,Phòng Chăm sóc khách hàng,P04,Phòng vận hành
+19,N15,Phòng Chính sách và khuyến mãi,P04,Phòng vận hành
+20,N16,Phòng phân tích kinh doanh (BA),P04,Phòng vận hành
+21,P05,Phòng Tài chính - Kế toán,BGD,Ban giám đốc
+22,P06,Phòng Pháp chế,BGD,Ban giám đốc
+23,P07,Phòng Nhân sự,BGD,Ban giám đốc
+24,P08,Phòng Mua hàng,BGD,Ban giám đốc

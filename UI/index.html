@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABAC System Administration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Ionicons for Icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside id="sidebar">
+        <div class="logo">
+            <ion-icon name="shield-checkmark"></ion-icon>
+            ABAC Admin
+        </div>
+        
+        <div class="nav-item active" data-target="departments">
+            <ion-icon name="business-outline"></ion-icon>
+            Quản lý phòng ban
+        </div>
+        <div class="nav-item" data-target="positions">
+            <ion-icon name="briefcase-outline"></ion-icon>
+            Quản lý chức vụ
+        </div>
+        <div class="nav-item" data-target="users">
+            <ion-icon name="people-outline"></ion-icon>
+            Quản lý người dùng
+        </div>
+
+        <div style="margin-top: auto;">
+            <button class="btn btn-outline" style="width: 100%; justify-content: center;" onclick="document.body.classList.toggle('dark')">
+                <ion-icon name="moon-outline"></ion-icon> Toggle Dark Mode
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        
+        <!-- Departments View -->
+        <section id="departments" class="view-section active">
+            <div class="header">
+                <div>
+                    <h1>Quản lý phòng ban</h1>
+                    <p style="color: var(--text-muted); margin-top: 0.25rem;">Xem danh sách và thiết lập cơ cấu tổ chức.</p>
+                </div>
+                <button class="btn btn-primary" onclick="openModal('dept-modal')">
+                    <ion-icon name="add"></ion-icon> Thêm mới
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab(this, 'dept-table-view')">Danh sách (Bảng)</div>
+                    <div class="tab" onclick="switchTab(this, 'dept-tree-view')">Sơ đồ (Tree)</div>
+                </div>
+
+                <div id="dept-table-view" class="tab-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mã PB</th>
+                                <th>Tên Phòng Ban</th>
+                                <th>Phòng Ban Cha</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dept-tbody">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="dept-tree-view" class="tab-content" style="display: none;">
+                    <div class="org-tree-wrapper">
+                        <div id="dept-tree-container" class="org-tree">
+                            <!-- Injected via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Positions View -->
+        <section id="positions" class="view-section">
+            <div class="header">
+                <div>
+                    <h1>Quản lý chức vụ</h1>
+                    <p style="color: var(--text-muted); margin-top: 0.25rem;">Phân quyền chức năng và phân quyền dữ liệu cho từng vị trí.</p>
+                </div>
+                <button class="btn btn-primary" onclick="openView('position-form-view')">
+                    <ion-icon name="add"></ion-icon> Thêm mới
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab(this, 'pos-table-view')">Danh sách (Bảng)</div>
+                    <div class="tab" onclick="switchTab(this, 'pos-tree-view')">Sơ đồ (Tree)</div>
+                </div>
+
+                <div id="pos-table-view" class="tab-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mã Vị Trí</th>
+                                <th>Tên Vị Trí</th>
+                                <th>Phòng Ban</th>
+                                <th>Người QL Trực Tiếp</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pos-tbody">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="pos-tree-view" class="tab-content" style="display: none;">
+                    <div class="org-tree-wrapper">
+                        <div id="pos-tree-container" class="org-tree">
+                            <!-- Injected via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Users View -->
+        <section id="users" class="view-section">
+            <div class="header">
+                <div>
+                    <h1>Quản lý người dùng</h1>
+                    <p style="color: var(--text-muted); margin-top: 0.25rem;">Gán phòng ban, chức vụ kiêm nhiệm cho người dùng.</p>
+                </div>
+                <button class="btn btn-primary" onclick="openView('user-form-view')">
+                    <ion-icon name="add"></ion-icon> Thêm mới
+                </button>
+            </div>
+
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Họ Tên</th>
+                            <th>Email</th>
+                            <th>Phòng Ban</th>
+                            <th>Chức vụ</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-tbody">
+                        <tr>
+                            <td>Nguyễn Văn A</td>
+                            <td>nva@company.com</td>
+                            <td><span class="tag">Ban giám đốc</span></td>
+                            <td><span class="tag">Giám đốc công ty</span></td>
+                            <td><span style="color: var(--secondary); font-weight: 600;">Active</span></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem;" onclick="openView('user-form-view')"><ion-icon name="create-outline"></ion-icon></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Trần Thị B</td>
+                            <td>ttb@company.com</td>
+                            <td><span class="tag">Phòng Marketing</span></td>
+                            <td><span class="tag">Trưởng phòng Marketing</span></td>
+                            <td><span style="color: var(--secondary); font-weight: 600;">Active</span></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem;" onclick="openView('user-form-view')"><ion-icon name="create-outline"></ion-icon></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Position Form View (Full Screen) -->
+        <section id="position-form-view" class="view-section">
+            <div class="header" style="border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="btn btn-outline" onclick="openView('positions')" style="padding: 0.5rem; border-radius: 50%; display: flex;"><ion-icon name="arrow-back-outline"></ion-icon></button>
+                    <div>
+                        <h1 style="font-size: 1.5rem;">Thêm mới / Chỉnh sửa chức vụ</h1>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Điền các thông tin và cấu hình phân quyền.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="max-width: 1200px; margin: 0 auto; background: var(--surface);">
+                <div class="tabs" style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
+                    <div class="tab active" onclick="switchFormTab(this, 'pos-tab-general')">Thông tin chung</div>
+                    <div class="tab" onclick="switchFormTab(this, 'pos-tab-functions')">Phân quyền chức năng</div>
+                    <div class="tab" onclick="switchFormTab(this, 'pos-tab-data')">Phân quyền dữ liệu</div>
+                    <div class="tab" onclick="switchFormTab(this, 'pos-tab-users')">Người dùng</div>
+                </div>
+
+                <form onsubmit="event.preventDefault(); openView('positions');">
+                    <!-- Tab 1: General Info -->
+                    <div id="pos-tab-general" class="form-tab-content" style="display: block;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                            <div class="form-group">
+                                <label>Mã vị trí</label>
+                                <input type="text" placeholder="Ví dụ: P010005">
+                            </div>
+                            <div class="form-group">
+                                <label>Tên vị trí (chức vụ)</label>
+                                <input type="text" placeholder="Nhập tên vị trí">
+                            </div>
+                            <div class="form-group">
+                                <label>Phòng ban trực thuộc</label>
+                                <select id="pos-dept-select">
+                                    <option value="">-- Chọn phòng ban --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Người quản lý trực tiếp (Vị trí)</label>
+                                <select id="pos-parent-select">
+                                    <option value="">-- Chọn vị trí quản lý --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab 2: Function Permissions -->
+                    <div id="pos-tab-functions" class="form-tab-content" style="display: none;">
+                        <div id="func-perm-container" style="display: flex; flex-direction: column; gap: 1rem; max-height: 500px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; background: var(--background);">
+                            <!-- Injected via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Data Permissions -->
+                    <div id="pos-tab-data" class="form-tab-content" style="display: none;">
+                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">Chọn đối tượng bên trái và thiết lập các thuộc tính dữ liệu được phép truy cập ở bên phải.</p>
+                        
+                        <div style="display: flex; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; min-height: 400px;">
+                            <!-- Vertical Menu -->
+                            <div class="vertical-tabs" style="width: 260px; background: var(--surface); border-right: 1px solid var(--border); padding: 1rem 0; display: flex; flex-direction: column; gap: 0.25rem;">
+                                <div class="v-tab active" onclick="switchVTab(this, 'data-kh')">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <ion-icon name="people-outline" style="font-size: 1.25rem; color: var(--text-muted);"></ion-icon> <span style="flex: 1;">Khách hàng</span> <ion-icon name="chevron-forward-outline" style="color: var(--text-muted); opacity: 0.5;"></ion-icon>
+                                    </div>
+                                </div>
+                                <div class="v-tab" onclick="switchVTab(this, 'data-hd')">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <ion-icon name="document-text-outline" style="font-size: 1.25rem; color: var(--text-muted);"></ion-icon> <span style="flex: 1;">Hợp đồng</span> <ion-icon name="chevron-forward-outline" style="color: var(--text-muted); opacity: 0.5;"></ion-icon>
+                                    </div>
+                                </div>
+                                <div class="v-tab" onclick="switchVTab(this, 'data-sp')">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <ion-icon name="cube-outline" style="font-size: 1.25rem; color: var(--text-muted);"></ion-icon> <span style="flex: 1;">Sản phẩm</span> <ion-icon name="chevron-forward-outline" style="color: var(--text-muted); opacity: 0.5;"></ion-icon>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Content Right -->
+                            <div style="flex: 1; padding: 2rem; background: var(--background);">
+                                <!-- Khach hang -->
+                                <div id="data-kh" class="v-tab-content">
+                                    <h4 style="margin-bottom: 1rem; color: var(--primary); font-size: 1rem;">Thuộc tính: Khu vực</h4>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Hà Nội</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Hồ Chí Minh</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Đà Nẵng</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Cần Thơ</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Hải Phòng</label>
+                                    </div>
+
+                                    <hr style="margin: 2rem 0; border: none; border-top: 1px dashed var(--border);">
+                                    <h4 style="margin-bottom: 1rem; color: var(--primary); font-size: 1rem;">Thuộc tính: Loại khách hàng</h4>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Doanh nghiệp (B2B)</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Cá nhân (B2C)</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Đối tác (Partner)</label>
+                                    </div>
+                                </div>
+                                
+                                <!-- Hop dong -->
+                                <div id="data-hd" class="v-tab-content" style="display: none;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--primary); font-size: 1rem;">Thuộc tính: Loại hợp đồng</h4>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Hợp đồng dịch vụ</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Hợp đồng thương mại</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Hợp đồng đại lý</label>
+                                    </div>
+
+                                    <hr style="margin: 2rem 0; border: none; border-top: 1px dashed var(--border);">
+                                    <h4 style="margin-bottom: 1rem; color: var(--primary); font-size: 1rem;">Thuộc tính: Trạng thái</h4>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Đang hiệu lực</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Hết hiệu lực</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Đã hủy</label>
+                                    </div>
+                                </div>
+
+                                <!-- San pham -->
+                                <div id="data-sp" class="v-tab-content" style="display: none;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--primary); font-size: 1rem;">Thuộc tính: Ngành hàng</h4>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Giải pháp phần mềm</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Thiết bị mạng</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Dịch vụ Cloud Computing</label>
+                                        <label class="perm-card-checkbox"><input type="checkbox"> Viễn thông</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 4: Users -->
+                    <div id="pos-tab-users" class="form-tab-content" style="display: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <p style="font-size: 0.875rem; color: var(--text-muted);">Danh sách người dùng đang được gán vào chức vụ này (bao gồm chức vụ chính và kiêm nhiệm).</p>
+                            <button type="button" class="btn btn-outline" onclick="openModal('assign-user-modal')">
+                                <ion-icon name="person-add-outline"></ion-icon> Thêm người dùng
+                            </button>
+                        </div>
+                        
+                        <div style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;">
+                            <table>
+                                <thead style="background: var(--background);">
+                                    <tr>
+                                        <th>Họ tên</th>
+                                        <th>Email</th>
+                                        <th>Loại chức vụ</th>
+                                        <th style="width: 80px; text-align: center;">Xóa</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pos-users-table">
+                                    <!-- empty state -->
+                                    <tr id="empty-pos-users-msg">
+                                        <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 2rem;">Chưa có người dùng nào được gán chức vụ này</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
+                        <button type="button" class="btn btn-outline" onclick="openView('positions')">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Lưu chức vụ</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- User Form View (Full Screen) -->
+        <section id="user-form-view" class="view-section">
+            <div class="header" style="border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="btn btn-outline" onclick="openView('users')" style="padding: 0.5rem; border-radius: 50%; display: flex;"><ion-icon name="arrow-back-outline"></ion-icon></button>
+                    <div>
+                        <h1 style="font-size: 1.5rem;">Thêm mới / Chỉnh sửa người dùng</h1>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Quản lý thông tin, chức vụ chính và các chức vụ kiêm nhiệm.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="max-width: 1000px; margin: 0 auto; background: var(--surface);">
+                <form onsubmit="event.preventDefault(); openView('users');">
+                    <h3 style="margin-bottom: 1rem;">Thông tin chung</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="form-group">
+                            <label>Họ tên</label>
+                            <input type="text" placeholder="Nhập họ tên">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" placeholder="example@company.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Số điện thoại</label>
+                            <input type="text" placeholder="Nhập SĐT">
+                        </div>
+                        <div class="form-group">
+                            <label>Mật khẩu</label>
+                            <input type="password" placeholder="Nhập mật khẩu">
+                        </div>
+                        <div class="form-group">
+                            <label>Trạng thái</label>
+                            <select>
+                                <option>Active</option>
+                                <option>Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
+                    <h3 style="margin-bottom: 1rem;">Chức vụ chính</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="form-group">
+                            <label>Phòng ban</label>
+                            <select id="primary-dept-select">
+                                <option value="">-- Chọn phòng ban --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Chức vụ</label>
+                            <select id="primary-pos-select">
+                                <option value="">-- Chọn chức vụ --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <div>
+                            <h3>Chức vụ kiêm nhiệm</h3>
+                            <p style="font-size: 0.875rem; color: var(--text-muted);">Thêm các chức vụ kiêm nhiệm khác ngoài chức vụ chính.</p>
+                        </div>
+                        <button type="button" class="btn btn-outline" onclick="openModal('concurrent-pos-modal')">
+                            <ion-icon name="add"></ion-icon> Thêm kiêm nhiệm
+                        </button>
+                    </div>
+                    
+                    <div style="border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;">
+                        <table>
+                            <thead style="background: var(--background);">
+                                <tr>
+                                    <th>Phòng ban</th>
+                                    <th>Chức vụ</th>
+                                    <th style="width: 80px; text-align: center;">Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody id="concurrent-pos-table">
+                                <!-- empty state -->
+                                <tr id="empty-concurrent-msg">
+                                    <td colspan="3" style="text-align: center; color: var(--text-muted); padding: 2rem;">Chưa có chức vụ kiêm nhiệm nào</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
+                        <button type="button" class="btn btn-outline" onclick="openView('users')">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Lưu người dùng</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Department -->
+    <div class="modal-overlay" id="dept-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Thêm mới phòng ban</h2>
+                <button class="close-btn" onclick="closeModal('dept-modal')">&times;</button>
+            </div>
+            <form onsubmit="event.preventDefault(); closeModal('dept-modal');">
+                <div class="form-group">
+                    <label>Mã phòng ban</label>
+                    <input type="text" placeholder="Ví dụ: P09">
+                </div>
+                <div class="form-group">
+                    <label>Tên phòng ban</label>
+                    <input type="text" placeholder="Nhập tên phòng ban">
+                </div>
+                <div class="form-group">
+                    <label>Phòng ban cha</label>
+                    <select id="dept-parent-select">
+                        <option value="">-- Chọn phòng ban cha --</option>
+                    </select>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('dept-modal')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!-- Modal Add Concurrent Position -->
+    <div class="modal-overlay" id="concurrent-pos-modal">
+        <div class="modal" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>Thêm chức vụ kiêm nhiệm</h2>
+                <button class="close-btn" onclick="closeModal('concurrent-pos-modal')">&times;</button>
+            </div>
+            <form onsubmit="event.preventDefault(); addConcurrentPos();">
+                <div class="form-group">
+                    <label>Phòng ban</label>
+                    <select id="concurrent-dept-select" required>
+                        <option value="">-- Chọn phòng ban --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Chức vụ</label>
+                    <select id="concurrent-pos-select" required>
+                        <option value="">-- Chọn chức vụ --</option>
+                    </select>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('concurrent-pos-modal')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Assign User to Position -->
+    <div class="modal-overlay" id="assign-user-modal">
+        <div class="modal" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>Thêm người dùng vào chức vụ</h2>
+                <button class="close-btn" onclick="closeModal('assign-user-modal')">&times;</button>
+            </div>
+            <form onsubmit="event.preventDefault(); assignUserToPos();">
+                <div class="form-group">
+                    <label>Người dùng</label>
+                    <select id="assign-user-select" required>
+                        <option value="">-- Chọn người dùng --</option>
+                        <option value="nva@company.com">Nguyễn Văn A (nva@company.com)</option>
+                        <option value="ttb@company.com">Trần Thị B (ttb@company.com)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Loại chức vụ đối với người này</label>
+                    <select id="assign-user-role-type" required>
+                        <option value="Chức vụ chính">Chức vụ chính</option>
+                        <option value="Kiêm nhiệm">Kiêm nhiệm</option>
+                    </select>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('assign-user-modal')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Thêm người dùng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="permissions.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+TT,Mã phòng ban,Tên phòng ban,Mã vị trí,Vị trí (chức vụ),Mã vị trí quản lý trực tiếp,Người quản lý trực tiếp
+1,BGD,Ban giám đốc,BGD0000,Giám đốc công ty,--,#N/A
+2,BGD,Ban giám đốc,BGD0001,Phó Giám đốc công ty,BGD0000,Giám đốc công ty
+3,BGD,Ban giám đốc,BGD0002,Giám đốc Khối kỹ thuật,BGD0000,Giám đốc công ty
+4,P01,Trung tâm Kinh doanh,P010000,Giám đốc Trung tâm Kinh doanh,BGD0000,Giám đốc công ty
+5,P01,Trung tâm Kinh doanh,P010001,Phó Giám đốc Trung tâm Kinh doanh,P010000,Giám đốc Trung tâm Kinh doanh
+6,P01,Trung tâm Kinh doanh,P010002,Nhân viên Kinh doanh,P010000,Giám đốc Trung tâm Kinh doanh
+7,N01,Nhóm Digital Sales,N010000,Trưởng nhóm Digital Sales,P010000,Giám đốc Trung tâm Kinh doanh
+8,N01,Nhóm Digital Sales,N010001,Nhân viên Digital Sales,N010000,Trưởng nhóm Digital Sales
+9,N02,Nhóm Direct Sales khu vực HN,N020000,Trưởng nhóm Direct Sales khu vực HN,P010000,Giám đốc Trung tâm Kinh doanh
+10,N02,Nhóm Direct Sales khu vực HN,N020001,Nhân viên Direct Sales khu vực HN,N020000,Trưởng nhóm Direct Sales khu vực HN
+11,N10,Nhóm Direct Sales khu vực HCM,N100000,Trưởng nhóm Direct Sales khu vực HCM,P010000,Giám đốc Trung tâm Kinh doanh
+12,N10,Nhóm Direct Sales khu vực HCM,N100001,Nhân viên Direct Sales khu vực HCM,N100000,Trưởng nhóm Direct Sales khu vực HCM
+13,N11,Nhóm Direct Sales khu vực Đà Nẵng,N110000,Trưởng nhóm Direct Sales khu vực Đà Nẵng,P010000,Giám đốc Trung tâm Kinh doanh
+14,N11,Nhóm Direct Sales khu vực Đà Nẵng,N110001,Nhân viên Direct Sales khu vực Đà Nẵng,N110000,Trưởng nhóm Direct Sales khu vực Đà Nẵng
+15,N03,Nhóm phụ trách đối tác Affiliate,N030000,Trưởng nhóm phụ trách đối tác Affiliate,P010000,Giám đốc Trung tâm Kinh doanh
+16,N03,Nhóm phụ trách đối tác Affiliate,N030001,Nhân viên phụ trách đối tác Affiliate,N030000,Trưởng nhóm phụ trách đối tác Affiliate
+17,P02,Phòng Marketing,P020000,Trưởng phòng Marketing,BGD0000,Giám đốc công ty
+18,P02,Phòng Marketing,P020001,Phó phòng Marketing,P020000,Trưởng phòng Marketing
+19,P02,Phòng Marketing,P020002,Nhân viên Marketing,P020000,Trưởng phòng Marketing
+20,N04,Nhóm Digital Marketing,N040000,Trưởng nhóm Digital Marketing,P020000,Trưởng phòng Marketing
+21,N04,Nhóm Digital Marketing,N040001,Nhân viên Digital Marketing,N040000,Trưởng nhóm Digital Marketing
+22,N05,"Nhóm PR, Event & Trade Marketing",N050000,"Trưởng nhóm PR, Event & Trade Marketing",P020000,Trưởng phòng Marketing
+23,N05,"Nhóm PR, Event & Trade Marketing",N050001,"Nhân viên PR, Event & Trade Marketing",N050000,"Trưởng nhóm PR, Event & Trade Marketing"
+24,P03,Phòng Kỹ thuật,P030000,Trưởng phòng Kỹ thuật,BGD0002,Giám đốc Khối kỹ thuật
+25,P03,Phòng Kỹ thuật,P030001,Phó phòng Kỹ thuật,P030000,Trưởng phòng Kỹ thuật
+26,P03,Phòng Kỹ thuật,P030002,Nhân viên Kỹ thuật,P030000,Trưởng phòng Kỹ thuật
+27,N12,Nhóm phát triển và vận hành,N120000,Trưởng nhóm phát triển và vận hành,P030000,Trưởng phòng Kỹ thuật
+28,N12,Nhóm phát triển và vận hành,N120001,Nhân viên phát triển và vận hành,N120000,Trưởng nhóm phát triển và vận hành
+29,N06,Nhóm help desk,N060000,Trưởng nhóm help desk,P030000,Trưởng phòng Kỹ thuật
+30,N06,Nhóm help desk,N060001,Nhân viên help desk,N060000,Trưởng nhóm help desk
+31,N08,Nhóm presales,N080000,Trưởng nhóm presales,P030000,Trưởng phòng Kỹ thuật
+32,N08,Nhóm presales,N080001,Nhân viên presales,N080000,Trưởng nhóm presales
+33,N09,Nhóm R&D,N090000,Trưởng nhóm R&D,P030000,Trưởng phòng Kỹ thuật
+34,N09,Nhóm R&D,N090001,Nhân viên R&D,N090000,Trưởng nhóm R&D
+35,P04,Phòng vận hành,P040000,Trưởng phòng Vận hành,BGD0000,Giám đốc công ty
+36,P04,Phòng vận hành,P040001,Phó phòng Vận hành,P040000,Trưởng phòng Vận hành
+37,P04,Phòng vận hành,P040002,Nhân viên Vận hành,P040000,Trưởng phòng Vận hành
+38,N13,Nhóm Partnership,N130000,Trưởng nhóm Partnership,P040000,Trưởng phòng Vận hành
+39,N13,Nhóm Partnership,N130001,Nhân viên Partnership,N130000,Trưởng nhóm Partnership
+40,N14,Phòng Chăm sóc khách hàng,N140000,Trưởng phòng Chăm sóc khách hàng,P040000,Trưởng phòng Vận hành
+41,N14,Phòng Chăm sóc khách hàng,N140001,Nhân viên Chăm sóc khách hàng,N140000,Trưởng phòng Chăm sóc khách hàng
+42,N15,Phòng Chính sách và khuyến mãi,N150000,Trưởng phòng Chính sách và khuyến mãi,P040000,Trưởng phòng Vận hành
+43,N15,Phòng Chính sách và khuyến mãi,N150001,Nhân viên Chính sách và khuyến mãi,N150000,Trưởng phòng Chính sách và khuyến mãi
+44,N16,Phòng phân tích kinh doanh (BA),N160000,Trưởng phòng phân tích kinh doanh (BA),P040000,Trưởng phòng Vận hành
+45,N16,Phòng phân tích kinh doanh (BA),N160001,Nhân viên phân tích kinh doanh (BA),N160000,Trưởng phòng phân tích kinh doanh (BA)
+46,P05,Phòng Tài chính - Kế toán,P050000,Trưởng phòng Tài chính - Kế toán,BGD0000,Giám đốc công ty
+47,P05,Phòng Tài chính - Kế toán,P050001,Phó phòng Tài chính - Kế toán,P050000,Trưởng phòng Tài chính - Kế toán
+48,P05,Phòng Tài chính - Kế toán,P050002,Kế toán viên,P050000,Trưởng phòng Tài chính - Kế toán
+49,P05,Phòng Tài chính - Kế toán,P050003,Chuyên viên Tài chính,P050000,Trưởng phòng Tài chính - Kế toán
+50,P06,Phòng Pháp chế,P060000,Trưởng phòng Pháp chế,BGD0000,Giám đốc công ty
+51,P06,Phòng Pháp chế,P060001,Phó phòng Pháp chế,P060000,Trưởng phòng Pháp chế
+52,P06,Phòng Pháp chế,P060002,Chuyên viên Pháp chế,P060000,Trưởng phòng Pháp chế
+53,P06,Phòng Pháp chế,P060003,Nhân viên Pháp chế,P060000,Trưởng phòng Pháp chế
+54,P07,Phòng Nhân sự,P070000,Trưởng phòng Nhân sự,BGD0000,Giám đốc công ty
+55,P07,Phòng Nhân sự,P070001,Phó phòng Nhân sự,P070000,Trưởng phòng Nhân sự
+56,P07,Phòng Nhân sự,P070002,Chuyên viên Nhân sự,P070000,Trưởng phòng Nhân sự
+57,P07,Phòng Nhân sự,P070003,Nhân viên Nhân sự,P070000,Trưởng phòng Nhân sự
+58,P08,Phòng Mua hàng,P080000,Trưởng phòng Mua hàng,BGD0000,Giám đốc công ty
+59,P08,Phòng Mua hàng,P080001,Phó phòng Mua hàng,P080000,Trưởng phòng Mua hàng
+60,P08,Phòng Mua hàng,P080002,Chuyên viên Mua hàng,P080000,Trưởng phòng Mua hàng
+61,P08,Phòng Mua hàng,P080003,Nhân viên Mua hàng,P080000,Trưởng phòng Mua hàng
