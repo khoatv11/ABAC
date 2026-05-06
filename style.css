@@ -408,8 +408,76 @@ input[type="checkbox"] {
 }
 .org-tree .node-card strong {
     color: var(--primary);
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     display: block;
+}
+
+.node-dept-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.node-users-list {
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.node-user-tag {
+    font-size: 0.75rem;
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--secondary);
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: center;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* Tree Toggle Button */
+.tree-toggle-btn {
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    color: var(--primary);
+    transition: var(--transition);
+}
+
+.tree-toggle-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Collapsed State */
+.org-tree li.collapsed > ul {
+    display: none;
+}
+
+.org-tree li.collapsed::after, 
+.org-tree li.collapsed::before {
+    border-bottom: none;
+}
+
+.org-tree li.collapsed {
+    padding-bottom: 10px;
 }
 
 /* Vertical Tabs & Permission Checkboxes */

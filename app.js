@@ -27,6 +27,13 @@ const positions = [
     { id: "P030000", name: "Trưởng phòng Kỹ thuật", deptId: "P03", deptName: "Phòng Kỹ thuật", parent: "BGD0002", parentName: "Giám đốc Khối kỹ thuật" }
 ];
 
+const users = [
+    { name: "Nguyễn Văn A", email: "nva@company.com", deptId: "BGD", posId: "BGD0000" },
+    { name: "Trần Thị B", email: "ttb@company.com", deptId: "P02", posId: "P020000" },
+    { name: "Lê Văn C", email: "lvc@company.com", deptId: "P01", posId: "P010000" },
+    { name: "Phạm Văn D", email: "pvd@company.com", deptId: "N01", posId: "N010001" },
+];
+
 const permissionGroupsData = [
     { code: "G_ADMIN", name: "Quản trị hệ thống", status: "Active" },
     { code: "G_SALES_MGR", name: "Quản lý kinh doanh", status: "Active" },
@@ -34,23 +41,50 @@ const permissionGroupsData = [
 ];
 
 // Utility: Build Tree HTML
-function buildTreeHTML(data, parentId = null) {
+function buildTreeHTML(data, parentId = null, isPositionTree = false) {
     const children = data.filter(item => item.parent === parentId);
     if (children.length === 0) return '';
 
     let html = `<ul>`;
     children.forEach(child => {
-        html += `<li>
+        const hasChildren = data.some(item => item.parent === child.id);
+        
+        let extraInfo = '';
+        if (isPositionTree) {
+            const nodeUsers = users.filter(u => u.posId === child.id);
+            const userTags = nodeUsers.map(u => `<span class="node-user-tag"><ion-icon name="person-outline"></ion-icon> ${u.name}</span>`).join('');
+            
+            extraInfo = `
+                <div class="node-dept-label">${child.deptName}</div>
+                <div class="node-users-list">${userTags || '<span style="color: var(--text-muted); font-size: 0.7rem; font-style: italic;">(Chưa có nhân sự)</span>'}</div>
+            `;
+        }
+
+        html += `<li class="${hasChildren ? 'has-children' : ''}">
             <div class="node-card">
+                ${hasChildren ? `<button class="tree-toggle-btn" onclick="toggleTreeNode(this)"><ion-icon name="remove-circle-outline"></ion-icon></button>` : ''}
                 <strong>${child.id}</strong>
                 <span>${child.name}</span>
+                ${extraInfo}
             </div>
-            ${buildTreeHTML(data, child.id)}
+            ${buildTreeHTML(data, child.id, isPositionTree)}
         </li>`;
     });
     html += `</ul>`;
     return html;
 }
+
+window.toggleTreeNode = function(btn) {
+    const li = btn.closest('li');
+    li.classList.toggle('collapsed');
+    
+    const icon = btn.querySelector('ion-icon');
+    if (li.classList.contains('collapsed')) {
+        icon.name = 'add-circle-outline';
+    } else {
+        icon.name = 'remove-circle-outline';
+    }
+};
 
 // Initialization
 document.addEventListener('DOMContentLoaded', () => {
@@ -103,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Populate Positions Tree
-    document.getElementById('pos-tree-container').innerHTML = buildTreeHTML(positions);
+    document.getElementById('pos-tree-container').innerHTML = buildTreeHTML(positions, null, true);
 
     // Populate Permission Groups Table
     const permGroupTbody = document.getElementById('perm-group-tbody');
