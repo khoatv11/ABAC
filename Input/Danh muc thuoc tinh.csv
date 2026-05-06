@@ -1,0 +1,24 @@
+TT,Đối tượng dữ liệu cần phân quyền,Mô tả phân quyền,Attribute dùng để phân quyền thêm,Value
+4,Chung,Có option cho phép xem toàn bộ dữ liệu,,
+5,Lead,"- Lead được gán cho nhân viên kinh doanh.
+- Nhân viên kinh doanh nào thì thấy dữ liệu được gán của người đó
+- Quản lý các cấp trên (theo line của người đó) sẽ thấy được tất cả Lead được gán cho cấp con, cháu của mình (Dựa vào cây chức vụ)",Nhân viên digital sales được gán,
+6,Khách hàng,"- Khách hàng được gán cho nhân viên kinh doanh (Nếu khách hàng convert từ Lead thì giữ nguyên sales được gán)
+- Nhân viên kinh doanh nào thì thấy dữ liệu của người đó
+- Quản lý các cấp trên (theo line của người đó) sẽ thấy được tất cả Lead được gán cho cấp con, cháu của mình","Tỉnh của địa chỉ đăng ký kinh doanh của khách hàng doanh nghiệp, tỉnh trong địa chỉ của khách hàng cá nhân",
+7,Cơ hội,Được xem Lead nào thì được xem cơ hội của các Lead đấy,Không phân quyền dữ liệu mà ăn theo danh sách lead được xem,
+8,Hoạt động,Hoạt động sales nào tạo thì người đó được xem,,
+9,Partner,,,
+10,Sản phẩm / Gói Combo,Không cần phân thêm quyền dữ liệu ngoài 4 rule chung ở đầu file,,
+11,Bảng giá,Không cần phân thêm quyền dữ liệu ngoài 4 rule chung ở đầu file,,
+12,Danh mục sản phẩm/ Cấu hình thuộc tính / Danh sách lĩnh vực,Không cần phân thêm quyền dữ liệu ngoài 4 rule chung ở đầu file,,
+13,Chương trình khuyến mãi,Không cần phân thêm quyền dữ liệu ngoài 4 rule chung ở đầu file,,
+14,Đơn hàng,Xem khách hàng nào thì xem được đơn hàng của khách hàng đấy,,
+15,Hóa đơn,Xem khách hàng nào thì xem được hóa đơn của khách hàng đấy,Theo khách hàng được xem,
+16,Subscription,Xem khách hàng nào thì xem được subscription của khách hàng đấy,,
+17,Hợp đồng,Xem khách hàng nào thì xem được hợp đồng của khách hàng đấy,,
+18,Yêu cầu hoàn tiền,Xem khách hàng nào thì xem được yêu cầu hoàn tiền của khách hàng đấy,,
+19,Tài khoản người dùng TPcoms/ Nhóm phân quyền,Không cần phân thêm quyền dữ liệu ngoài 4 rule chung ở đầu file,,
+20,"Tin tức, Thông báo, Landing page, FAQ, Video, Tài liệu",Không cần phân thêm quyền dữ liệu ngoài 4 rule chung ở đầu file,,
+21,Kho tri thức cho AI,Không cần phân thêm quyền dữ liệu ngoài 4 rule chung ở đầu file,,
+22,Ticket,Phòng ban nào được phân công công xử lý ticket thì người thuộc phòng ban đấy xem được tất cả ticket thuộc phòng ban đó xử lý,Phòng ban được phân công,N/A
